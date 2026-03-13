@@ -1,0 +1,6 @@
+@ConstructionService_HostAddress = http://localhost:5027
+
+GET {{ConstructionService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

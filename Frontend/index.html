@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Construction Dashboard</title>
+</head>
+
+<body>
+
+<h2>Construction Projects</h2>
+
+<input id="name" placeholder="Project Name"><br><br>
+<input id="location" placeholder="Location"><br><br>
+<input id="budget" placeholder="Budget"><br><br>
+
+<button onclick="addProject()">Add Project</button>
+
+<h3>Projects List</h3>
+<ul id="projects"></ul>
+
+<script>
+
+const api = "http://localhost:5027/api/Project";
+
+function loadProjects(){
+
+fetch(api)
+.then(res => res.json())
+.then(data => {
+
+let list = document.getElementById("projects");
+list.innerHTML="";
+
+data.forEach(p => {
+
+let li = document.createElement("li");
+li.innerText = p.name + " - " + p.location + " - " + p.budget;
+
+list.appendChild(li);
+
+});
+
+});
+
+}
+
+function addProject(){
+
+let project = {
+id: 1,
+name: document.getElementById("name").value,
+location: document.getElementById("location").value,
+budget: parseFloat(document.getElementById("budget").value)
+};
+
+fetch(api,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(project)
+})
+.then(res => res.json())
+.then(data => {
+console.log(data);
+loadProjects();
+});
+
+}
+
+loadProjects();
+
+</script>
+
+</body>
+</html>
